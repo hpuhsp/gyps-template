@@ -19,11 +19,6 @@ fun initLayout(provider: GypsPluginGeneratorProvider) = """
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/include_title"
-        layout="@layout/fb_toolbar_title_layout" />
-
-
 </LinearLayout>
 """
 

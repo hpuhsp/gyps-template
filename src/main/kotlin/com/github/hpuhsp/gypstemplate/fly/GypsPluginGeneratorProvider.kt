@@ -42,12 +42,13 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
                 TextFieldWidget(activityLayoutName),
                 CheckBoxWidget(generateActivityLayout),
                 TextFieldWidget(activityGeneratedLocation),
-                CheckBoxWidget(needFragment),
-                TextFieldWidget(fragmentLayoutName),
-                CheckBoxWidget(generateFragmentLayout),
-                TextFieldWidget(fragmentGeneratedLocation),
+//                CheckBoxWidget(needFragment),
+//                TextFieldWidget(fragmentLayoutName),
+//                CheckBoxWidget(generateFragmentLayout),
+//                TextFieldWidget(fragmentGeneratedLocation),
                 CheckBoxWidget(needViewModel),
                 CheckBoxWidget(needRepository),
+                CheckBoxWidget(needResourcePrefix),
                 LanguageWidget()
             )
             
@@ -85,6 +86,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
                 TextFieldWidget(fragmentGeneratedLocation),
                 CheckBoxWidget(needViewModel),
                 CheckBoxWidget(needRepository),
+                CheckBoxWidget(needResourcePrefix),
                 LanguageWidget()
             )
             
@@ -151,7 +153,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
      */
     val activityGeneratedLocation = stringParameter {
         name = "Activity Package Name"
-        constraints = listOf(Constraint.PACKAGE, Constraint.STRING)
+        constraints = listOf(Constraint.PACKAGE, Constraint.STRING, Constraint.NONEMPTY)
         suggest = { "${targetPackageName.value}.ui.activity" }
         visible = { needActivity.value }
         default = "${targetPackageName.value}.ui.activity"
@@ -204,7 +206,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
      */
     val fragmentGeneratedLocation = stringParameter {
         name = "Fragment Class Location"
-        constraints = listOf(Constraint.PACKAGE, Constraint.STRING)
+        constraints = listOf(Constraint.PACKAGE, Constraint.STRING, Constraint.NONEMPTY)
         suggest = { "${targetPackageName.value}.ui.fragment" }
         default = "${targetPackageName.value}.ui.fragment"
         visible = { needFragment.value }
@@ -227,5 +229,14 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
         name = "Generate Repository"
         default = false
         help = "是否需要生成 Repository ? 默认不生成"
+    }
+    
+    /**
+     * 是否定义资源前缀（根据需要，不定义则不添加至文件名称中，默认自动获取）
+     */
+    val needResourcePrefix = booleanParameter {
+        name = "Add ResourcePrefix"
+        default = true
+        help = "是否添加资源前缀，默认自动获取Module定义的resourcePrefix值,重定义类和资源文件名称"
     }
 }
