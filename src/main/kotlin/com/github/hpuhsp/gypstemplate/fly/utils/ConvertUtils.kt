@@ -40,7 +40,7 @@ fun getResourcePrefixFromBuildFile(filePath: String): String? {
 
 fun convertToBindingClassName(input: String): String {
     val words = input.split("_")
-    val capitalizedWords = words.map { it.uppercase(Locale.getDefault()) }
+    val capitalizedWords = words.map { firstUppercase(it) }
     return capitalizedWords.joinToString("") + "Binding"
 }
 

@@ -55,7 +55,7 @@ fun RecipeExecutor.gypsRecipe(
      */
     val languageSuffix = if (data.projectTemplateData.language == Language.Java) "java" else "kt"
     val isKt = data.projectTemplateData.language == Language.Kotlin
-    
+    // 注意生成文件的顺序，必须考虑引用关系
     if (createAct) {
         val activityName = "$namePrefix${firstUppercase(provider.activityName.value)}"
         
@@ -76,14 +76,13 @@ fun RecipeExecutor.gypsRecipe(
             )
         }
         
-        if (provider.needActivity.value) {
-            
-            val activityFile = File(
+        if (provider.needRepository.value) {
+            val repositoryFile = File(
                 data.rootDir,
-                "${getSeparatorPackageName(provider.activityGeneratedLocation.value)}/${activityName}Activity.$languageSuffix"
+                "${getSeparatorPackageName(provider.targetPackageName.value)}/${activityName}Repository.$languageSuffix"
             )
-            save(gypsActivity(provider, modulePackageName, activityName), activityFile)
-            open(activityFile)
+            save(gypsViewModel(provider, activityName), repositoryFile)
+            open(repositoryFile)
         }
         
         if (provider.needViewModel.value) {
@@ -95,15 +94,15 @@ fun RecipeExecutor.gypsRecipe(
             open(viewModelFile)
         }
         
-        if (provider.needRepository.value) {
-            val repositoryFile = File(
+        if (provider.needActivity.value) {
+            
+            val activityFile = File(
                 data.rootDir,
-                "${getSeparatorPackageName(provider.targetPackageName.value)}/${activityName}Repository.$languageSuffix"
+                "${getSeparatorPackageName(provider.activityGeneratedLocation.value)}/${activityName}Activity.$languageSuffix"
             )
-            save(gypsViewModel(provider, activityName), repositoryFile)
-            open(repositoryFile)
+            save(gypsActivity(provider, modulePackageName, activityName, namePrefix), activityFile)
+            open(activityFile)
         }
-        
     } else {
         val fragmentName = "$namePrefix${firstUppercase(provider.fragmentName.value)}"
         
@@ -117,13 +116,13 @@ fun RecipeExecutor.gypsRecipe(
             )
         }
         
-        if (provider.needFragment.value) {
-            val fragmentFile = File(
+        if (provider.needRepository.value) {
+            val repositoryFile = File(
                 data.rootDir,
-                "${getSeparatorPackageName(provider.fragmentGeneratedLocation.value)}/${fragmentName}Fragment.$languageSuffix"
+                "${getSeparatorPackageName(provider.targetPackageName.value)}/${fragmentName}Repository.$languageSuffix"
             )
-            save(gypsFragment(provider, modulePackageName, fragmentName), fragmentFile)
-            open(fragmentFile)
+            save(gypsViewModel(provider, fragmentName), repositoryFile)
+            open(repositoryFile)
         }
         
         if (provider.needViewModel.value) {
@@ -135,13 +134,13 @@ fun RecipeExecutor.gypsRecipe(
             open(viewModelFile)
         }
         
-        if (provider.needRepository.value) {
-            val repositoryFile = File(
+        if (provider.needFragment.value) {
+            val fragmentFile = File(
                 data.rootDir,
-                "${getSeparatorPackageName(provider.targetPackageName.value)}/${fragmentName}Repository.$languageSuffix"
+                "${getSeparatorPackageName(provider.fragmentGeneratedLocation.value)}/${fragmentName}Fragment.$languageSuffix"
             )
-            save(gypsViewModel(provider, fragmentName), repositoryFile)
-            open(repositoryFile)
+            save(gypsFragment(provider, modulePackageName, fragmentName, namePrefix), fragmentFile)
+            open(fragmentFile)
         }
     }
 }

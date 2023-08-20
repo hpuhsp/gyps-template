@@ -14,7 +14,9 @@ import java.util.*
 fun commonAnnotation(provider: GypsPluginGeneratorProvider) = """
 /**
  * Created on ${SimpleDateFormat("yyyy/MM/dd HH:mm").format(Date(System.currentTimeMillis()))}
- * @Author
- * ${if (provider.needActivity.value) "${provider.activityName}Activity" else "${provider.fragmentName}Fragment"}
+ * @Description:
+ * @Author:
+ * @Email:
+ * @UpdateRemark:
  */
 """.trimIndent()

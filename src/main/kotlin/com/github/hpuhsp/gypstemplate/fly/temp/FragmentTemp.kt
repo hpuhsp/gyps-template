@@ -14,11 +14,13 @@ import com.github.hpuhsp.gypstemplate.fly.utils.convertToBindingClassName
 fun gypsFragment(
     provider: GypsPluginGeneratorProvider,
     modulePackageName: String,
-    fragmentName: String
+    fragmentName: String,
+    namePrefix: String
 ): String {
     
     val viewModelName = "${fragmentName}ViewModel"
-    val viewBindingName = convertToBindingClassName(provider.fragmentLayoutName.value)
+    val viewBindingName =
+        "${namePrefix}${convertToBindingClassName(provider.fragmentLayoutName.value)}"
     
     return """
 package ${provider.fragmentGeneratedLocation.value}
@@ -27,7 +29,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import ${provider.targetPackageName}.viewmodel.${viewModelName}
+import ${provider.targetPackageName.value}.viewmodel.${viewModelName}
 import ${modulePackageName}.R
 import ${modulePackageName}.databinding.${viewBindingName}
 import com.swallow.fly.base.view.BaseFragment

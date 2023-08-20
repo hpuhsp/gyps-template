@@ -14,11 +14,13 @@ import com.github.hpuhsp.gypstemplate.fly.utils.convertToBindingClassName
 fun gypsActivity(
     provider: GypsPluginGeneratorProvider,
     modulePackageName: String,
-    activityName: String
+    activityName: String,
+    namePrefix: String
 ): String {
     
     val viewModelName = "${activityName}ViewModel"
-    val viewBindingName = convertToBindingClassName(provider.activityLayoutName.value)
+    val viewBindingName =
+        "${namePrefix}${convertToBindingClassName(provider.activityLayoutName.value)}"
     
     return """
 package ${provider.activityGeneratedLocation.value}
@@ -28,7 +30,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import ${provider.targetPackageName}.viewmodel.${viewModelName}
+import ${provider.targetPackageName.value}.viewmodel.${viewModelName}
 import ${modulePackageName}.R
 import ${modulePackageName}.databinding.${viewBindingName}
 import com.swallow.fly.base.view.BaseActivity
