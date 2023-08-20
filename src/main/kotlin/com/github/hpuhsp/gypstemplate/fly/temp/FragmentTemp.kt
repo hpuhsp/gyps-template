@@ -37,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 ${commonAnnotation(provider)}
 
-@@AndroidEntryPoint
+@AndroidEntryPoint
 class ${fragmentName}Fragment :
     BaseFragment<$viewModelName, $viewBindingName>(){
     

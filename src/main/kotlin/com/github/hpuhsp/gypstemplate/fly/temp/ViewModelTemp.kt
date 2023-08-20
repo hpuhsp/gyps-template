@@ -18,7 +18,7 @@ package ${provider.targetPackageName.value}.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.swallow.fly.base.viewmodel.BaseViewModel
-import ${provider.targetPackageName}.${pageName}Repository
+import ${provider.targetPackageName.value}.${pageName}Repository
 
 ${commonAnnotation(provider)}
 

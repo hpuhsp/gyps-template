@@ -14,7 +14,7 @@ fun gypsRepository(
     provider: GypsPluginGeneratorProvider,
     pageName: String
 ) = """
-package ${provider.targetPackageName.value}.repository
+package ${provider.targetPackageName.value}
 
 import com.swallow.fly.base.repository.BaseRepository
 import javax.inject.Inject

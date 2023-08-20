@@ -9,6 +9,7 @@ import com.github.hpuhsp.gypstemplate.fly.config.initLayout
 import com.github.hpuhsp.gypstemplate.fly.config.modifyManifest
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsActivity
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsFragment
+import com.github.hpuhsp.gypstemplate.fly.temp.gypsRepository
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsViewModel
 import com.github.hpuhsp.gypstemplate.fly.utils.firstUppercase
 import com.github.hpuhsp.gypstemplate.fly.utils.getResourcePrefixFromBuildFile
@@ -81,7 +82,7 @@ fun RecipeExecutor.gypsRecipe(
                 data.rootDir,
                 "${getSeparatorPackageName(provider.targetPackageName.value)}/${activityName}Repository.$languageSuffix"
             )
-            save(gypsViewModel(provider, activityName), repositoryFile)
+            save(gypsRepository(provider, activityName), repositoryFile)
             open(repositoryFile)
         }
         
@@ -121,7 +122,7 @@ fun RecipeExecutor.gypsRecipe(
                 data.rootDir,
                 "${getSeparatorPackageName(provider.targetPackageName.value)}/${fragmentName}Repository.$languageSuffix"
             )
-            save(gypsViewModel(provider, fragmentName), repositoryFile)
+            save(gypsRepository(provider, fragmentName), repositoryFile)
             open(repositoryFile)
         }
         

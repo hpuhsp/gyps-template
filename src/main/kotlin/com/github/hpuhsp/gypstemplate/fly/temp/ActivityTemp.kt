@@ -38,7 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 ${commonAnnotation(provider)}
 
-@@AndroidEntryPoint
+@AndroidEntryPoint
 class ${activityName}Activity :
     BaseActivity<$viewModelName, $viewBindingName>(){
     
