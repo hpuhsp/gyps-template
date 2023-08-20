@@ -59,6 +59,7 @@ class ${fragmentName}Fragment :
     override fun initView() {
     
     }
-    
+}
+
 """.trimIndent()
 }

@@ -62,7 +62,7 @@ class ${activityName}Activity :
     override fun initData(savedInstanceState: Bundle?) {
     
     }
-    
+}
 """.trimIndent()
 }
 
