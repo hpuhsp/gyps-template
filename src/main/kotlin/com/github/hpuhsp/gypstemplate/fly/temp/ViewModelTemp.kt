@@ -27,3 +27,23 @@ class ${pageName}ViewModel @ViewModelInject constructor(private val repository: 
 }
 
 """.trimIndent()
+
+/**
+ * 不引入Repository类
+ */
+fun gypsViewModelNoRepo(
+    provider: GypsPluginGeneratorProvider,
+    pageName: String
+) = """
+package ${provider.targetPackageName.value}.viewmodel
+
+import androidx.hilt.lifecycle.ViewModelInject
+import com.swallow.fly.base.viewmodel.BaseViewModel
+
+${commonAnnotation(provider)}
+
+class ${pageName}ViewModel @ViewModelInject constructor() : BaseViewModel() {
+
+}
+
+""".trimIndent()

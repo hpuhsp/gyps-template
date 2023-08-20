@@ -11,6 +11,7 @@ import com.github.hpuhsp.gypstemplate.fly.temp.gypsActivity
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsFragment
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsRepository
 import com.github.hpuhsp.gypstemplate.fly.temp.gypsViewModel
+import com.github.hpuhsp.gypstemplate.fly.temp.gypsViewModelNoRepo
 import com.github.hpuhsp.gypstemplate.fly.utils.firstUppercase
 import com.github.hpuhsp.gypstemplate.fly.utils.getResourcePrefixFromBuildFile
 import com.github.hpuhsp.gypstemplate.fly.utils.getSeparatorPackageName
@@ -91,7 +92,11 @@ fun RecipeExecutor.gypsRecipe(
                 data.rootDir,
                 "${getSeparatorPackageName(provider.targetPackageName.value)}/viewmodel/${activityName}ViewModel.$languageSuffix"
             )
-            save(gypsViewModel(provider, activityName), viewModelFile)
+            if (provider.needRepository.value) {
+                save(gypsViewModel(provider, activityName), viewModelFile)
+            } else {
+                save(gypsViewModelNoRepo(provider, activityName), viewModelFile)
+            }
             open(viewModelFile)
         }
         
@@ -131,7 +136,11 @@ fun RecipeExecutor.gypsRecipe(
                 data.rootDir,
                 "${getSeparatorPackageName(provider.targetPackageName.value)}/viewmodel/${fragmentName}ViewModel.$languageSuffix"
             )
-            save(gypsViewModel(provider, fragmentName), viewModelFile)
+            if (provider.needRepository.value) {
+                save(gypsViewModel(provider, fragmentName), viewModelFile)
+            } else {
+                save(gypsViewModelNoRepo(provider, fragmentName), viewModelFile)
+            }
             open(viewModelFile)
         }
         
