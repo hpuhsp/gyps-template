@@ -22,7 +22,57 @@ fun gypsFragment(
     val viewBindingName =
         "${namePrefix}${convertToBindingClassName(provider.fragmentLayoutName.value)}"
     
-    return """
+    return if (provider.createLazyFragment.value) { // BaseLazyFragment
+        """
+package ${provider.fragmentGeneratedLocation.value}
+
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import ${provider.targetPackageName.value}.viewmodel.${viewModelName}
+import ${modulePackageName}.R
+import ${modulePackageName}.databinding.${viewBindingName}
+import com.swallow.fly.base.view.BaseLazyFragment
+import dagger.hilt.android.AndroidEntryPoint
+
+${commonAnnotation(provider)}
+
+@AndroidEntryPoint
+class ${fragmentName}Fragment :
+    BaseLazyFragment<$viewModelName, $viewBindingName>(){
+    
+    companion object {
+        
+        @JvmStatic
+        fun newInstance() =
+            ${fragmentName}Fragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
+    }
+    
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> $viewBindingName
+        get() = $viewBindingName::inflate
+    override val modelClass: Class<$viewModelName>?
+        get() = $viewModelName::class.java
+        
+    override fun initView() {
+    
+    }
+    override fun onFirstVisibleToUser() {
+    }
+    
+    override fun onInvisibleToUser() {
+    }
+    
+    override fun onVisibleToUser() {
+    }
+}
+
+""".trimIndent()
+    } else { // BaseFragment
+        """
 package ${provider.fragmentGeneratedLocation.value}
 
 import android.content.Context
@@ -51,15 +101,16 @@ class ${fragmentName}Fragment :
             }
     }
     
-    override val bindingInflater: (LayoutInflater) -> $viewBindingName
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> $viewBindingName
         get() = $viewBindingName::inflate
-    override val modelClass: Class<$viewModelName>
+    override val modelClass: Class<$viewModelName>?
         get() = $viewModelName::class.java
-    
+        
     override fun initView() {
     
     }
 }
 
 """.trimIndent()
+    }
 }

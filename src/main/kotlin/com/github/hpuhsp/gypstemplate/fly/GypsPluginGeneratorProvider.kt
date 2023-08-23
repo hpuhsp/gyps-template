@@ -42,10 +42,6 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
                 TextFieldWidget(activityLayoutName),
                 CheckBoxWidget(generateActivityLayout),
                 TextFieldWidget(activityGeneratedLocation),
-//                CheckBoxWidget(needFragment),
-//                TextFieldWidget(fragmentLayoutName),
-//                CheckBoxWidget(generateFragmentLayout),
-//                TextFieldWidget(fragmentGeneratedLocation),
                 CheckBoxWidget(needViewModel),
                 CheckBoxWidget(needRepository),
                 CheckBoxWidget(needResourcePrefix),
@@ -54,7 +50,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
             
             // 模板代码文件创建
             recipe = { it ->
-                gypsRecipe(this@GypsPluginGeneratorProvider, (it as ModuleTemplateData), true)
+                gypsActivityRecipe(this@GypsPluginGeneratorProvider, (it as ModuleTemplateData))
             }
         }
     
@@ -81,6 +77,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
                 PackageNameWidget(targetPackageName),
                 TextFieldWidget(fragmentName),
                 CheckBoxWidget(needFragment),
+                CheckBoxWidget(createLazyFragment),
                 TextFieldWidget(fragmentLayoutName),
                 CheckBoxWidget(generateFragmentLayout),
                 TextFieldWidget(fragmentGeneratedLocation),
@@ -92,7 +89,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
             
             // 模板代码文件创建
             recipe = { it ->
-                gypsRecipe(this@GypsPluginGeneratorProvider, (it as ModuleTemplateData), false)
+                gypsFragmentRecipe(this@GypsPluginGeneratorProvider, (it as ModuleTemplateData))
             }
         }
     
@@ -160,6 +157,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
         help = "Activity 类生成目录，可根据需要进行修改调整"
     }
     
+    
     /**
      * 定义 Fragment 名称
      */
@@ -175,8 +173,18 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
      */
     val needFragment = booleanParameter {
         name = "Generate Fragment"
-        default = false
+        default = true
         help = "是否需要生成Fragment ? 默认不生成"
+    }
+    
+    /**
+     * 是否继承BaseLazyFragment ? 默认继承BaseFragment
+     */
+    val createLazyFragment = booleanParameter {
+        name = "Lazy Fragment"
+        default = false
+        visible = { needFragment.value }
+        help = "是否继承BaseLazyFragment ? 默认继承BaseFragment"
     }
     
     /**
@@ -185,7 +193,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
     val fragmentLayoutName = stringParameter {
         name = "Fragment Layout Name"
         constraints = listOf(Constraint.LAYOUT, Constraint.NONEMPTY)
-        suggest = { "fragment_${classToResource(activityName.value)}" }
+        suggest = { fragmentToLayout(fragmentName.value) }
         default = "fragment_main"
         visible = { needFragment.value }
         help = "如果已创建XML布局文件，则填写对应名称。否则请勾选下方框创建新的布局文件"
@@ -227,7 +235,7 @@ class GypsPluginGeneratorProvider : WizardTemplateProvider() {
      */
     val needRepository = booleanParameter {
         name = "Generate Repository"
-        default = false
+        default = true
         help = "是否需要生成 Repository ? 默认不生成"
     }
     
