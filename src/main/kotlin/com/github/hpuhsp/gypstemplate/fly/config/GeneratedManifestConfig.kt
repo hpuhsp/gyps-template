@@ -9,12 +9,16 @@ package com.github.hpuhsp.gypstemplate.fly.config
  */
 import com.github.hpuhsp.gypstemplate.fly.GypsPluginGeneratorProvider
 
-fun modifyManifest(provider: GypsPluginGeneratorProvider, modulePackageName: String) = """
+fun modifyManifest(
+    provider: GypsPluginGeneratorProvider,
+    modulePackageName: String,
+    activityName: String
+) = """
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="$modulePackageName">
     <application>
         <activity
-	        android:name="${provider.activityGeneratedLocation.value}.${provider.activityName.value}Activity"
+	        android:name="${provider.activityGeneratedLocation.value}.${activityName}Activity"
             android:screenOrientation="portrait"
 	        />
     </application>

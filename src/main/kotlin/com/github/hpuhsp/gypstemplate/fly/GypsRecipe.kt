@@ -61,7 +61,7 @@ fun RecipeExecutor.gypsActivityRecipe(
     
     if (provider.needActivity.value) {
         mergeXml(
-            modifyManifest(provider, modulePackageName),
+            modifyManifest(provider, modulePackageName, activityName),
             File(data.manifestDir, "AndroidManifest.xml")
         )
     }
