@@ -15,7 +15,6 @@ import com.github.hpuhsp.gypstemplate.fly.temp.gypsViewModelNoRepo
 import com.github.hpuhsp.gypstemplate.fly.utils.firstUppercase
 import com.github.hpuhsp.gypstemplate.fly.utils.getResourcePrefixFromBuildFile
 import com.github.hpuhsp.gypstemplate.fly.utils.getSeparatorPackageName
-import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 import java.io.File
 
 /**
@@ -32,25 +31,25 @@ fun RecipeExecutor.gypsActivityRecipe(
     // 模块包名，例如com.github.user , 对应AndroidManifest.xml中配置，获取方式为：val modulePackageName = projectData.applicationPackage
     val (projectData, srcOut, resOut, manifestDir) = data
     val modulePath = data.rootDir.absolutePath // Module 的文件目录的绝对路径
-    val moduleName = data.rootDir.name.toLowerCaseAsciiOnly() // Module 名称
+    val moduleName = data.rootDir.name.lowercase() // Module 名称
     val modulePackageName = projectData.applicationPackage ?: "" // Module 包名
-    
+
     /**
      * 资源前缀
      */
     var resourcePrefix = ""
-    
+
     /**
      * 类文件等命名前缀
      */
     var namePrefix = ""
-    
+
     if (provider.needResourcePrefix.value) {
         resourcePrefix =
             getResourcePrefixFromBuildFile("${modulePath.replace("\\", "/")}/build.gradle") ?: ""
         namePrefix = resourcePrefix.replace("_", "").replaceFirstChar { it.uppercase() }
     }
-    
+
     /**
      * 语言选择 Java 或者 Kotlin
      */
@@ -58,14 +57,14 @@ fun RecipeExecutor.gypsActivityRecipe(
     val isKt = data.projectTemplateData.language == Language.Kotlin
     // 注意生成文件的顺序，建议考虑引用关系
     val activityName = "$namePrefix${firstUppercase(provider.activityName.value)}"
-    
+
     if (provider.needActivity.value) {
         mergeXml(
             modifyManifest(provider, modulePackageName, activityName),
             File(data.manifestDir, "AndroidManifest.xml")
         )
     }
-    
+
     if (provider.needActivity.value && provider.generateActivityLayout.value) {
         save(
             initLayout(provider),
@@ -75,7 +74,7 @@ fun RecipeExecutor.gypsActivityRecipe(
             )
         )
     }
-    
+
     if (provider.needRepository.value) {
         val repositoryFile = File(
             data.rootDir,
@@ -84,7 +83,7 @@ fun RecipeExecutor.gypsActivityRecipe(
         save(gypsRepository(provider, activityName), repositoryFile)
         open(repositoryFile)
     }
-    
+
     if (provider.needViewModel.value) {
         val viewModelFile = File(
             data.rootDir,
@@ -97,7 +96,7 @@ fun RecipeExecutor.gypsActivityRecipe(
         }
         open(viewModelFile)
     }
-    
+
     if (provider.needActivity.value) {
         val activityFile = File(
             data.rootDir,
@@ -106,7 +105,7 @@ fun RecipeExecutor.gypsActivityRecipe(
         save(gypsActivity(provider, modulePackageName, activityName, namePrefix), activityFile)
         open(activityFile)
     }
-    
+
 }
 
 /**
@@ -119,32 +118,32 @@ fun RecipeExecutor.gypsFragmentRecipe(
     // 模块包名，例如com.github.user , 对应AndroidManifest.xml中配置，获取方式为：val modulePackageName = projectData.applicationPackage
     val (projectData, srcOut, resOut, manifestDir) = data
     val modulePath = data.rootDir.absolutePath // Module 的文件目录的绝对路径
-    val moduleName = data.rootDir.name.toLowerCaseAsciiOnly() // Module 名称
+    val moduleName = data.rootDir.name.lowercase() // Module 名称
     val modulePackageName = projectData.applicationPackage ?: "" // Module 包名
-    
+
     /**
      * 资源前缀
      */
     var resourcePrefix = ""
-    
+
     /**
      * 类文件等命名前缀
      */
     var namePrefix = ""
-    
+
     if (provider.needResourcePrefix.value) {
         resourcePrefix =
             getResourcePrefixFromBuildFile("${modulePath.replace("\\", "/")}/build.gradle") ?: ""
         namePrefix = resourcePrefix.replace("_", "").replaceFirstChar { it.uppercase() }
     }
-    
+
     /**
      * 语言选择 Java 或者 Kotlin
      */
     val languageSuffix = if (data.projectTemplateData.language == Language.Java) "java" else "kt"
     val isKt = data.projectTemplateData.language == Language.Kotlin
     val fragmentName = "$namePrefix${firstUppercase(provider.fragmentName.value)}"
-    
+
     if (provider.needFragment.value && provider.generateFragmentLayout.value) {
         save(
             initEmptyLayout(provider),
@@ -154,7 +153,7 @@ fun RecipeExecutor.gypsFragmentRecipe(
             )
         )
     }
-    
+
     if (provider.needRepository.value) {
         val repositoryFile = File(
             data.rootDir,
@@ -163,7 +162,7 @@ fun RecipeExecutor.gypsFragmentRecipe(
         save(gypsRepository(provider, fragmentName), repositoryFile)
         open(repositoryFile)
     }
-    
+
     if (provider.needViewModel.value) {
         val viewModelFile = File(
             data.rootDir,
@@ -176,7 +175,7 @@ fun RecipeExecutor.gypsFragmentRecipe(
         }
         open(viewModelFile)
     }
-    
+
     if (provider.needFragment.value) {
         val fragmentFile = File(
             data.rootDir,
